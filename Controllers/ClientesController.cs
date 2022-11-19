@@ -23,6 +23,7 @@ namespace ProyectoFactura.Controllers
 
         [HttpGet]
         [Route("ListaCliente")]
+
         public async Task<IActionResult> Lista()
         {
             List<Cliente> lista = new List<Cliente>();
