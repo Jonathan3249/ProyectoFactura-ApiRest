@@ -17,5 +17,5 @@ public partial class Cliente
 
     public virtual ICollection<Factura> Facturas { get; } = new List<Factura>();
 
-    public virtual TipoCliente IdTipoClienteNavigation { get; set; } = null!;
+    public virtual TipoCliente? IdTipoClienteNavigation { get; set; }  
 }
