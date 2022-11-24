@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Context;
+using Backend.Models;
+using Backend.Models.ModelsExt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using ProyectoFactura.Context;
-using ProyectoFactura.Models;
-using ProyectoFactura.Models.ModelsExt;
 
-namespace ProyectoFactura.Controllers
+namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -45,7 +45,7 @@ namespace ProyectoFactura.Controllers
 
                 return StatusCode(StatusCodes.Status200OK, lista);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, lista);
 
@@ -74,28 +74,28 @@ namespace ProyectoFactura.Controllers
 
                 else
                 {
-                    clientes = _context.Clientes.Where(x => x.NumeroContador.ToLower().IndexOf(contador)> -1).ToList();
+                    clientes = _context.Clientes.Where(x => x.NumeroContador.ToLower().IndexOf(contador) > -1).ToList();
 
                     SqlConnection conexion = (SqlConnection)_context.Database.GetDbConnection();
                     SqlCommand comando = conexion.CreateCommand();
                     conexion.Open();
                     comando.CommandType = System.Data.CommandType.StoredProcedure;
                     comando.CommandText = "spDatos";
-                    comando.Parameters.Add("@numMedidor", System.Data.SqlDbType.NVarChar,50).Value = contador;
+                    comando.Parameters.Add("@numMedidor", System.Data.SqlDbType.NVarChar, 50).Value = contador;
                     SqlDataReader reader = comando.ExecuteReader();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Cliente cli = new Cliente();
-                    
+
                         cli.IdCliente = (int)reader["IdCliente"];
                         cli.NombreCompleto = (string)reader["NombreCompleto"];
                         cli.Direccion = (string)reader["Direccion"];
                         cli.Correo = (string)reader["Correo"];
                         cli.NumeroContador = (string)reader["NumeroContador"];
                         cli.Telefono = (string)reader["Telefono"];
-                        
+
                         clientes.Add(cli);
-                        
+
 
 
 

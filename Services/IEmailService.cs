@@ -1,6 +1,6 @@
-﻿using ProyectoFactura.Models;
+﻿using Backend.Models;
 
-namespace ProyectoFactura.Services
+namespace Backend.Services
 {
     public interface IEmailService
     {

@@ -1,7 +1,6 @@
+using Backend.Context;
+using Backend.Services;
 using Microsoft.EntityFrameworkCore;
-using ProyectoFactura.Context;
-using ProyectoFactura.Services;
-using ProyectoFactura.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

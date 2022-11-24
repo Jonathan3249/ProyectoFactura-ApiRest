@@ -1,6 +1,7 @@
+using Backend;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ProyectoFactura.Controllers
+namespace Backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]

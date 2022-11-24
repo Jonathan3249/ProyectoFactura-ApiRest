@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ProyectoFactura.Models;
+namespace Backend.Models;
 
 public partial class Factura
 {
@@ -13,9 +13,9 @@ public partial class Factura
 
     public int IdObservaciones { get; set; }
 
-    public virtual Cliente IdClienteNavigation { get; set; } = null!;
+    public virtual Cliente IdClienteNavigation { get; set; }
 
-    public virtual Observacione IdObservacionesNavigation { get; set; } = null!;
+    public virtual Observacione IdObservacionesNavigation { get; set; }
 
-    public virtual Tarifa IdTarifaNavigation { get; set; } = null!;
+    public virtual Tarifa IdTarifaNavigation { get; set; }
 }

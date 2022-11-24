@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ProyectoFactura.Models;
+namespace Backend.Models;
 
 public partial class Tarifa
 {
     public int IdTarifa { get; set; }
 
-    public string? TipoTarifa { get; set; }
+    public string TipoTarifa { get; set; }
 
     public double? Precio { get; set; }
 

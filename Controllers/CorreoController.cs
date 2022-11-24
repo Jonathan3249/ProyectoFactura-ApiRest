@@ -1,13 +1,13 @@
-﻿using MailKit.Net.Smtp;
+﻿using Backend.Models;
+using Backend.Services;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using MimeKit.Text;
-using ProyectoFactura.Models;
-using ProyectoFactura.Services;
 
-namespace ProyectoFactura.Controllers
+namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -21,15 +21,15 @@ namespace ProyectoFactura.Controllers
         }
 
         [HttpPost]
-        [Route("Guardar")]
-        public  IActionResult SendEmail(Correo request)
+        [Route("Enviar")]
+        public IActionResult SendEmail(Correo request)
         {
             try
             {
                 _emailService.SendEmail(request);
                 return StatusCode(StatusCodes.Status200OK, "ok");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }

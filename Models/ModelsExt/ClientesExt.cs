@@ -1,13 +1,13 @@
-﻿namespace ProyectoFactura.Models.ModelsExt
+﻿namespace Backend.Models.ModelsExt
 {
     public class ClientesExt
     {
-       public int? Id { get; set; }   
-       public String? Nombre{ get; set; } 
-        public String? Direccion { get; set; }
-       public String? Contador { get; set; }  
-       public String? Correo { get; set; }
+        public int? Id { get; set; }
+        public string Nombre { get; set; }
+        public string Direccion { get; set; }
+        public string Contador { get; set; }
+        public string Correo { get; set; }
 
-       public String? Telefono { get; set; }
+        public string Telefono { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ProyectoFactura.Models
+﻿namespace Backend.Models
 {
     public class Correo
     {
