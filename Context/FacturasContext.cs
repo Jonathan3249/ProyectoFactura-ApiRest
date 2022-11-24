@@ -35,11 +35,20 @@ public partial class FacturasContext : DbContext
 
             entity.Property(e => e.NombreCompleto).HasMaxLength(100);
             entity.Property(e => e.Telefono).HasMaxLength(50);
+            entity.Property(e => e.NumeroContador).HasMaxLength(50);
+            entity.Property(e => e.Correo).HasMaxLength(50);
 
             entity.HasOne(d => d.IdTipoClienteNavigation).WithMany(p => p.Clientes)
                 .HasForeignKey(d => d.IdTipoCliente)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Clientes_TipoCliente");
+        });
+
+        modelBuilder.Entity<Historial>(entity =>
+        {
+            entity.HasKey(e => e.IdHistorial);
+
+            entity.Property(e => e.Cantidad);
         });
 
         modelBuilder.Entity<Factura>(entity =>

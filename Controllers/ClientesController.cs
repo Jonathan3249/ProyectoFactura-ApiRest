@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFactura.Context;
 using ProyectoFactura.Models;
+using ProyectoFactura.Models.ModelsExt;
 
 namespace ProyectoFactura.Controllers
 {
@@ -19,6 +21,96 @@ namespace ProyectoFactura.Controllers
         public ClientesController(FacturasContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        [Route("Clientes/{busqueda}")]
+        public async Task<IActionResult> BusProductos(string busqueda)
+        {
+            List<ClientesExt> lista = new List<ClientesExt>();
+            try
+            {
+                lista = await _context.Clientes
+                   .Where(p => string.Concat(p.NombreCompleto.ToLower(), p.NumeroContador.ToLower()).Contains(busqueda.ToLower()))
+                .Select(p => new ClientesExt()
+                {
+                    Id = p.IdCliente,
+                    Nombre = p.NombreCompleto,
+                    Direccion = p.Direccion,
+                    Contador = p.NumeroContador,
+                    Correo = p.Correo,
+                    Telefono = p.Telefono
+                }).ToListAsync();
+
+
+                return StatusCode(StatusCodes.Status200OK, lista);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, lista);
+
+            }
+        }
+
+        [HttpGet]
+        [Route("SP")]
+        public async Task<ActionResult<List<Cliente>>> ObtenerDatos()
+        {
+            var result = await _context.Clientes.FromSqlRaw("spDatos").ToListAsync();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("Filtrar")]
+        public ActionResult Obtener(string contador)
+        {
+            try
+            {
+                List<Cliente> clientes = new List<Cliente>();
+                if (contador == null)
+                {
+                    clientes = _context.Clientes.ToList();
+                }
+
+                else
+                {
+                    clientes = _context.Clientes.Where(x => x.NumeroContador.ToLower().IndexOf(contador)> -1).ToList();
+
+                    SqlConnection conexion = (SqlConnection)_context.Database.GetDbConnection();
+                    SqlCommand comando = conexion.CreateCommand();
+                    conexion.Open();
+                    comando.CommandType = System.Data.CommandType.StoredProcedure;
+                    comando.CommandText = "spDatos";
+                    comando.Parameters.Add("@numMedidor", System.Data.SqlDbType.NVarChar,50).Value = contador;
+                    SqlDataReader reader = comando.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        Cliente cli = new Cliente();
+                    
+                        cli.IdCliente = (int)reader["IdCliente"];
+                        cli.NombreCompleto = (string)reader["NombreCompleto"];
+                        cli.Direccion = (string)reader["Direccion"];
+                        cli.Correo = (string)reader["Correo"];
+                        cli.NumeroContador = (string)reader["NumeroContador"];
+                        cli.Telefono = (string)reader["Telefono"];
+                        
+                        clientes.Add(cli);
+                        
+
+
+
+                    }
+                    conexion.Close();
+
+                }
+
+                return Ok(contador);
+
+            }
+            catch
+            {
+                return BadRequest("Error");
+            }
         }
 
         [HttpGet]

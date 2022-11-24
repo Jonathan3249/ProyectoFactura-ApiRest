@@ -15,6 +15,10 @@ public partial class Cliente
 
     public int IdTipoCliente { get; set; }
 
+    public string? NumeroContador { get; set; }
+
+    public string? Correo { get; set; } 
+
     public virtual ICollection<Factura> Facturas { get; } = new List<Factura>();
 
     public virtual TipoCliente? IdTipoClienteNavigation { get; set; }  
