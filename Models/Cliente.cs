@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Backend.Models;
+namespace ProyectoFactura.Models;
 
 public partial class Cliente
 {

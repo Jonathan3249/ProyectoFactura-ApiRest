@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Backend.Context;
-using Backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProyectoFactura.Context;
+using ProyectoFactura.Models;
 
-namespace Backend.Controllers
+namespace ProyectoFactura.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -37,6 +37,19 @@ namespace Backend.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, lista);
             }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TipoCliente>> GetTipoCliente(int id)
+        {
+            var tipocliente = await _context.TipoClientes.FindAsync(id);
+
+            if (tipocliente == null)
+            {
+                return NotFound();
+            }
+
+            return tipocliente;
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Backend.Models;
+﻿using ProyectoFactura.Models;
 
-namespace Backend.Services
+namespace ProyectoFactura.Services
 {
     public interface IEmailService
     {
-        void SendEmail(Correo request);
+        void SendEmail(string request);
     }
 }

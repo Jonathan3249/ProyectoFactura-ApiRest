@@ -1,6 +1,8 @@
-using Backend.Context;
-using Backend.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using ProyectoFactura.Context;
+using ProyectoFactura.Services;
+using System.Text.Encodings.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyCors",
+        builder =>
+        {
+            builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+        }
+);
+});
 
 builder.Services.AddDbContext<FacturasContext>(options =>
 {
@@ -21,6 +32,8 @@ builder.Services.AddDbContext<FacturasContext>(options =>
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
     option.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    option.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    option.JsonSerializerOptions.Encoder = JavaScriptEncoder.Default;
 });
 
 var app = builder.Build();
@@ -38,6 +51,12 @@ if (app.Environment.IsDevelopment())
         );
 }
 
+
+app.UseAuthorization();
+
+app.UseRouting();
+
+app.UseCors("MyCors");
 
 app.UseAuthorization();
 

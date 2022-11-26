@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using ProyectoFactura.Models;
 
-namespace Backend.Context;
+namespace ProyectoFactura.Context;
 
 public partial class FacturasContext : DbContext
 {

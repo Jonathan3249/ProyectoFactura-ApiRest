@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Backend.Context;
-using Backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProyectoFactura.Context;
+using ProyectoFactura.Models;
 
-namespace Backend.Controllers
+namespace ProyectoFactura.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

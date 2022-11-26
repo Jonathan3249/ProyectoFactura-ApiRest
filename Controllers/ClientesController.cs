@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Backend.Context;
-using Backend.Models;
-using Backend.Models.ModelsExt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using ProyectoFactura.Context;
+using ProyectoFactura.Models;
+using ProyectoFactura.Models.ModelsExt;
 
-namespace Backend.Controllers
+namespace ProyectoFactura.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -21,6 +21,18 @@ namespace Backend.Controllers
         public ClientesController(FacturasContext context)
         {
             _context = context;
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Cliente>> GetTipoCliente(int id)
+        {
+            var cliente = await _context.Clientes.FindAsync(id);
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            return cliente;
         }
 
         [HttpGet]
@@ -34,10 +46,10 @@ namespace Backend.Controllers
                    .Where(p => string.Concat(p.NombreCompleto.ToLower(), p.NumeroContador.ToLower()).Contains(busqueda.ToLower()))
                 .Select(p => new ClientesExt()
                 {
-                    Id = p.IdCliente,
-                    Nombre = p.NombreCompleto,
+                    IdCliente = p.IdCliente,
+                    NombreCompleto = p.NombreCompleto,
                     Direccion = p.Direccion,
-                    Contador = p.NumeroContador,
+                    NumeroContador = p.NumeroContador,
                     Correo = p.Correo,
                     Telefono = p.Telefono
                 }).ToListAsync();

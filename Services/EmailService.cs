@@ -1,10 +1,10 @@
-﻿using Backend.Models;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
+using ProyectoFactura.Models;
 
-namespace Backend.Services
+namespace ProyectoFactura.Services
 {
     public class EmailService : IEmailService
     {
@@ -15,11 +15,11 @@ namespace Backend.Services
             _config = config;
         }
 
-        public void SendEmail(Correo request)
+        public void SendEmail(string destino)
         {
             var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUsername").Value));
-            email.To.Add(MailboxAddress.Parse(request.Destino));
+            email.To.Add(MailboxAddress.Parse(destino));
             email.Subject = "FACTURA ENERGIA ELECTRICA";
             email.Body = new TextPart(TextFormat.Html) { Text = "<h1>Te informamos que has recibido tu factura electronica de tu servicio de energia electrica<h1>" };
 
